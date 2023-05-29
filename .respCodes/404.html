@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>您是不是找错了…… - 404 - Misaka Castle Laboratory</title>
+        <meta charset="utf-8">
+        <style type="text/css">
+            body {
+                font-family: "Microsoft YaHei", "微软雅黑", "Helvetica Neue", Helvetica, Arial, sans-serif;
+                font-size: 14px;
+                color: #333;
+                max-width: 800px;
+                margin: 0 auto;
+            }
+            .cprt
+            {
+                display: block;
+                margin: 0 auto;
+                font-family: "Consolas", "Courier New", monospace;
+                font-size: 14.5px;
+                text-align: center;
+                margin-bottom: 10px;
+            }
+            .ctdn
+            {
+                font-weight: bold;
+                font-family: 'Consolas', 'Courier New', monospace;
+            }
+        </style>
+        <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+    
+        <script type="text/javascript">
+             <!-- cf workers 不支持 jQuery -->
+            function formatString(str, ...args)
+            {
+                return str.replace(/{(\d+)}/g, (match, index) =>
+                {
+                    return typeof args[index] != 'undefined' ? args[index] : match;
+                });
+            }
+            function getCopyrightYearInternal(startYear)
+            {
+                // 格式(C#内插字符串示例): $"{startYear}-{endYear}"
+                // endYear是当前系统时间的年部分
+                var template = "{0}-{1}";
+                var args = [startYear, new Date().getFullYear()];
+                var r = formatString(template, args[0], args[1]);
+                return r;
+            }
+
+            function cprtInit()
+            {
+                var yearStr = getCopyrightYearInternal(2015);
+                var fullStr = `&copy;Copyright {0} <a href="https://github.com/Misaka12456" alt="御坂12456's GitHub Profile">御坂12456</a> affected by <a href="https://misakacastle.moe" alt="Misaka Castle">Misaka Castle.</a> All rights reserved.`;
+                fullStr = formatString(fullStr, yearStr);
+                document.getElementById("cprt").innerHTML = fullStr;
+            }
+
+            function ctdnToBack()
+            {
+                // 倒计时5秒
+                var ctdn = 5;
+                var ctdnStr = ctdn.toString();
+                document.getElementById("ctdn").innerHTML = ctdnStr;
+                var ctdnInterval = setInterval(function()
+                {
+                    ctdn--;
+                    ctdnStr = ctdn.toString();
+                    document.getElementById("ctdn").innerHTML = ctdnStr;
+                    if (ctdn <= 0)
+                    {
+                        clearInterval(ctdnInterval);
+                        window.location.href = "https://lab.misakacastle.moe";
+                    }
+                }, 1000);
+            }
+        </script>
+    </head>
+    <body onload="cprtInit(); ctdnToBack();">
+        <h1>是不是找错了……</h1>
+        没关系的，<span class="ctdn" id="ctdn">114514</span>秒后将会自动跳转回主页，耐心等下就好qwq
+        <hr>
+        <footer>
+            <span class="cprt" id="cprt"></span>
+        </footer>
+    </body>
+</html>

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>你在找什么？在找实验项目吗？ - Misaka Castle Laboratory</title>
+        <meta charset="utf-8">
+        <style type="text/css">
+            body {
+                font-family: "Microsoft YaHei", "微软雅黑", "Helvetica Neue", Helvetica, Arial, sans-serif;
+                font-size: 14px;
+                color: #333;
+                max-width: 800px;
+                margin: 0 auto;
+            }
+            .cprt
+            {
+                display: block;
+                margin: 0 auto;
+                font-family: "Consolas", "Courier New", monospace;
+                font-size: 14.5px;
+                text-align: center;
+                margin-bottom: 10px;
+            }
+            .forkOnGitHub {
+                position: fixed;
+                z-index: 1000;
+                top: 0;
+                right: 0;
+            }
+        </style>
+        <script type="text/javascript">
+             <!-- cf workers 不支持 jQuery -->
+            function formatString(str, ...args)
+            {
+                return str.replace(/{(\d+)}/g, (match, index) =>
+                {
+                    return typeof args[index] != 'undefined' ? args[index] : match;
+                });
+            }
+            function getCopyrightYearInternal(startYear)
+            {
+                // 格式(C#内插字符串示例): $"{startYear}-{endYear}"
+                // endYear是当前系统时间的年部分
+                var template = "{0}-{1}";
+                var args = [startYear, new Date().getFullYear()];
+                var r = formatString(template, args[0], args[1]);
+                return r;
+            }
+
+            function cprtInit()
+            {
+                var yearStr = getCopyrightYearInternal(2015);
+                var fullStr = `&copy;Copyright {0} <a href="https://github.com/Misaka12456" alt="御坂12456's GitHub Profile">御坂12456</a> affected by <a href="https://misakacastle.moe" alt="Misaka Castle">Misaka Castle.</a> All rights reserved.`;
+                fullStr = formatString(fullStr, yearStr);
+                document.getElementById("cprt").innerHTML = fullStr;
+            }
+        </script>
+    </head>
+    <body onload="cprtInit()">
+        <span class="forkOnGitHub">
+        <a href="https://github.com/Misaka12456"><img decoding="async" loading="lazy" width="149" height="149" src="https://github.blog/wp-content/uploads/2008/12/forkme_right_green_007200.png?resize=149%2C149" class="attachment-full size-full" alt="Fork me on GitHub" data-recalc-dims="1"></a>
+        </span>
+        <h1>欢迎来到Misaka Castle 实验区</h1>
+        在这里，你能找到一堆稀奇古怪的东西x<br />
+        <hr>
+        <ul>
+            <li>
+                <a href="https://lab.misakacastle.moe/nsdd" alt="你说的真是太对了！">你说的真是太对了!</a><br />
+                「你说得对」定型文生成器
+            </li>
+        </ul>
+        <footer>
+            <span class="cprt" id="cprt"></span>
+        </footer>
+    </body>
+</html>

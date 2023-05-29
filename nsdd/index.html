@@ -1,0 +1,317 @@
+<!-- 「你说的对」定型文生成器 / "You're so right" phrase generator -->
+<!-- html part -->
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta chartset="utf-8">
+        <title>你说的真是太对力!!!1111</title>
+        <style type="text/css">
+            body 
+            {
+                max-width: 1000px;
+                margin: 0 auto;
+            }
+
+            textarea {
+                display: block;
+                margin: 0 auto;
+                font-size: 15px;
+            }
+
+            .forkOnGitHub {
+                position: fixed;
+                z-index: 1000;
+                top: 0;
+                right: 0;
+            }
+
+
+            .main
+            {
+                margin: 0 auto;
+                width: 50%;
+                text-align: center;
+            }
+
+            .btnGen
+            {
+                display: block;
+                margin: 0 auto;
+                text-align: center;
+                width: 150px;
+                height: 50px;
+                font-size: 20px;
+                font-family: "方正喵呜体", "黑体", "微软雅黑", "Microsoft YaHei", "SimHei", "STHeiti", "sans-serif";
+                margin-bottom: 10px;
+            }
+
+            .container
+            {
+                display: grid;
+                grid-template-columns: repeat(4, 1fr);
+                grid-gap: 10px;
+                margin-bottom: 20px;
+            }
+
+            .container > div
+            {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                padding: 10px;
+                background-color: #f5f5f5;
+                border-radius: 5px;
+            }
+
+            .container > div > input
+            {
+                margin-top: 10px;
+                width: 100%;
+                padding: 5px;
+                border-radius: 3px;
+                border: 1px solid #ccc;
+            }
+
+            @media (max-width: 768px)
+            {
+                .container
+                {
+                    grid-template-columns: repeat(4, 1fr);
+                }
+            }
+
+            .result
+            {
+                text-align: center;
+            }
+
+            .cprt
+            {
+                display: block;
+                margin: 0 auto;
+                font-family: "Consolas", "Courier New", monospace;
+                font-size: 14.5px;
+                text-align: center;
+                margin-bottom: 10px;
+            }
+        </style>
+        <script type="text/javascript">
+            <!-- cf workers 不支持 jQuery -->
+            function formatString(str, ...args)
+            {
+                return str.replace(/{(\d+)}/g, (match, index) =>
+                {
+                    return typeof args[index] != 'undefined' ? args[index] : match;
+                });
+            }
+
+            function generate()
+            {
+                var args = [document.getElementById("gName").value,
+                            document.getElementById("gCompany").value,
+                            document.getElementById("gType").value,
+                            document.getElementById("wName").value,
+                            document.getElementById("npcName").value,
+                            document.getElementById("rSkill").value,
+                            document.getElementById("opSkill").value,
+                            document.getElementById("pCharName").value,
+                            document.getElementById("pCharType").value,
+                            document.getElementById("pAction").value,
+                            document.getElementById("pAAction1").value,
+                            document.getElementById("pAAction2").value,
+                            document.getElementById("gCoreName").value];
+                var titles = ["游戏名",
+                            "游戏开发商",
+                            "游戏类型",
+                            "虚拟世界名",
+                            "核心NPC角色称呼",
+                            "与玩家有关的的最重要物品",
+                            "玩家需要操作的最重要的能力或事物",
+                            "玩家角色称呼",
+                            "玩家角色类型名",
+                            "玩家需要进行的主要任务",
+                            "玩家进行任务时的附带行为1",
+                            "玩家进行任务时的附带行为2",
+                            "游戏剧情中的核心内容的缩写"];
+                for (var i = 0; i < args.length; i++)
+                {
+                    if (!requireCheck(i, titles[i], args[i]))
+                    {
+                        return;
+                    }
+                }
+                var r = youReSoRightGen(args[0], args[1], args[2], args[3], args[4], args[5], args[6], args[7], args[8], args[9], args[10], args[11], args[12]);
+                document.getElementById("tResult").value = r;
+            }
+
+            function requireCheck(idx, title, value)
+            {
+                // 只有idx=8的pCharType可以为空
+                if (idx == 8)
+                {
+                    return true;
+                }
+                if (value == "")
+                {
+                    alert("缺少必要参数：" + title);
+                    return false;
+                }
+                return true;
+            }
+
+            function youReSoRightGen(gName, gCompany, gType, wName, npcName, rSkill, opSkill, pCharName, pCharType, pAction, pAAction1, pAAction2, gCoreName)
+            {
+                /**
+                 * gName = game name
+                 * gCompany = game company
+                 * gType = game type
+                 * wName = world name
+                 * npcName = npc name
+                 * rSkill = related skill
+                 * opSkill = operated skill (skill which need to be operated by player)
+                 * pCharName = player character name
+                 * pCharType = player character type
+                 * pAction = player (main) action
+                 * pAAction1 = player additional action 1
+                 * pAAction2 = player additional action 2
+                 * gCoreName = game core name
+                 */
+                var template = "你说的对，但是《{0}》是由{1}自主研发的一款全新{2}游戏。游戏发生在一个被称作「{3}」的幻想世界，在这里，被{4}选中的人将被授予「{5}」，导引{6}之力。你将扮演一位名为「{7}」的{8}角色，在自由的{9}中{10}，{11}——同时，逐步发掘「{12}」的真相。";
+                var args = [gName, gCompany, gType, wName, npcName, rSkill, opSkill, pCharName, "的" + pCharType, pAction, pAAction1, pAAction2, gCoreName];
+                var r = formatString(template, args[0], args[1], args[2], args[3], args[4], args[5], args[6], args[7], args[8], args[9], args[10], args[11], args[12]);
+                return r;
+            }
+
+            function testABit()
+            {
+                document.getElementById("gName").value = "原神";
+                document.getElementById("gCompany").value = "米哈游";
+                document.getElementById("gType").value = "开放世界冒险";
+                document.getElementById("wName").value = "提瓦特";
+                document.getElementById("npcName").value = "神";
+                document.getElementById("rSkill").value = "神之眼";
+                document.getElementById("opSkill").value = "元素";
+                document.getElementById("pCharName").value = "旅行者";
+                document.getElementById("pCharType").value = "神秘";
+                document.getElementById("pAction").value = "旅行";
+                document.getElementById("pAAction1").value = "邂逅性格各异、能力独特的同伴们";
+                document.getElementById("pAAction2").value = "和他们一起击败强敌，找回失散的亲人";
+                document.getElementById("gCoreName").value = "原神";
+            }
+
+            function getCopyrightYearInternal(startYear)
+            {
+                // 格式(C#内插字符串示例): $"{startYear}-{endYear}"
+                // endYear是当前系统时间的年部分
+                var template = "{0}-{1}";
+                var args = [startYear, new Date().getFullYear()];
+                var r = formatString(template, args[0], args[1]);
+                return r;
+            }
+
+            function cprtInit()
+            {
+                var yearStr = getCopyrightYearInternal(2015);
+                var fullStr = `&copy;Copyright {0} <a href="https://github.com/Misaka12456" alt="御坂12456's GitHub Profile">御坂12456</a> affected by <a href="https://misakacastle.moe" alt="Misaka Castle">Misaka Castle.</a> All rights reserved.`;
+                fullStr = formatString(fullStr, yearStr);
+                document.getElementById("cprt").innerHTML = fullStr;
+            }
+        </script>
+    </head>
+    <body onload="cprtInit()">
+       <span class="forkOnGitHub">
+        <a href="https://github.com/Misaka12456"><img decoding="async" loading="lazy" width="149" height="149" src="https://github.blog/wp-content/uploads/2008/12/forkme_right_green_007200.png?resize=149%2C149" class="attachment-full size-full" alt="Fork me on GitHub" data-recalc-dims="1"></a>
+       </span>
+        <!-- "Fork me on GitHub" ribbon -->
+        <span class="main">
+            <h1>「你说的对」定型文生成器</h1>
+            <hr>
+            <p>
+                <b>你说的对，但是《原神》是由米哈游自主研发的一款全新开放世界冒险游戏。游戏发生在一个被称作「提瓦特」的幻想世界，在这里，被神选中的人将被授予「神之眼」，导引元素之力。你将扮演一位名为「旅行者」的神秘角色，在自由的旅行中邂逅性格各异、能力独特的同伴们，和他们一起击败强敌，找回失散的亲人——同时，逐步发掘「原神」的真相。</b>
+            </p>
+            <p>
+                <h2>注意：本工具及开发者不歧视任何一个游戏的玩家，若因使用本工具而导致出现不必要的歧视或更严重的后果，开发者不承担任何责任。</h2>
+            </p>
+            <p>
+                本工具将按照如下占位符模板生成文本：<br />
+                <code>
+                    <!-- {0} - {12} 为占位符，需要填写为实际的内容 -->
+                    你说的对，但是《&#123;0&#125;》是由&#123;1&#125;自主研发的一款全新&#123;2&#125;游戏。游戏发生在一个被称作「&#123;3&#125;」的幻想世界，在这里，被&#123;4&#125;选中的人将被授予「&#123;5&#125;」，导引&#123;6&#125;之力。你将扮演一位名为「&#123;7&#125;」的&#123;8&#125;角色，在自由的&#123;9&#125;中&#123;10&#125;，&#123;11&#125;——同时，逐步发掘「&#123;12&#125;」的真相。
+                </code>
+            </p>
+            <hr>
+            <span class="formSettings">
+                <h2>参数设置</h2>
+                <div class="container">
+                    <div>
+                        <h3>游戏名</h3>
+                        <input type="text" id="gName" placeholder="如：原神"  required />
+                    </div>
+                    <div>
+                        <h3>游戏开发商</h3>
+                        <input type="text" id="gCompany" placeholder="如：米哈游"  required />
+                    </div>
+                    <div>
+                        <h3>游戏类型(不要添加&quot;游戏&quot;二字)</h3>
+                        <input type="text" id="gType" placeholder="如：开放世界冒险"  required />
+                    </div>
+                    <div>
+                        <h3>虚拟世界名</h3>
+                        <input type="text" id="wName" placeholder="如：提瓦特"  required />
+                    </div>
+                    <div>
+                        <h3>核心NPC角色称呼</h3>
+                        <input type="text" id="npcName" placeholder="如：神"  required />
+                    </div>
+                    <div>
+                        <h3>与玩家有关的的最重要物品</h3>
+                        <input type="text" id="rSkill" placeholder="如：神之眼"  required />
+                    </div>
+                    <div>
+                        <h3>玩家需要操作的最重要的能力或事物(不要添加&quot;之力&quot;二字)</h3>
+                        <input type="text" id="opSkill" placeholder="如：元素"  required />
+                    </div>
+                    <div>
+                        <h3>玩家角色称呼</h3>
+                        <input type="text" id="pCharName" placeholder="如：旅行者" required />
+                    </div>
+                    <div>
+                        <h3>玩家角色类型名(可留空)</h3>
+                        <input type="text" id="pCharType" placeholder="如：神秘" />
+                    </div>
+                    <div>
+                        <h3>玩家需要进行的主要任务</h3>
+                        <input type="text" id="pAction" placeholder="如：旅行"  required />
+                    </div>
+                    <div>
+                        <h3>玩家进行任务时的附带行为1</h3>
+                        <input type="text" id="pAAction1" placeholder="如：邂逅性格各异、能力独特的同伴们"  required />
+                    </div>
+                    <div>
+                        <h3>玩家进行任务时的附带行为2</h3>
+                        <input type="text" id="pAAction2" placeholder="如：和他们一起击败强敌，找回失散的亲人"  required />
+                    </div>
+                    <div>
+                        <h3>游戏剧情中的核心内容的缩写</h3>
+                        <input type="text" id="gCoreName" placeholder="如：原神"  required />
+                    </div>
+                </div>
+                <tr>
+                    <td>
+                        <button type="button" onclick="generate()" class="btnGen">生成!</button>
+                    </td>
+                    <td>
+                        <button type="button" onclick="testABit()" class="btnGen">测试一下</button>
+                    </td>
+                </tr>
+            </span>
+            <hr>
+            <span class="result">
+                <h3>生成结果</h3>
+                <textarea id="tResult" rows="10" cols="100" readonly></textarea>
+            </span>
+        </span>
+        <hr>
+        <span id="cprt" class="cprt"></span>
+    </body>
+</html>

@@ -1,0 +1,5 @@
+# Git Ignore
+
+# Converted worker.js and min.html(html compressed for worker.js) files
+.converted
+.converted/*
