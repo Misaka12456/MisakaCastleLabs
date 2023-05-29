@@ -176,7 +176,7 @@
                  * pAAction2 = player additional action 2
                  * gCoreName = game core name
                  */
-                var template = "你说得对，但是《{0}》是由{1}自主研发的一款全新{2}游戏。游戏发生在一个被称作「{3}」的幻想世界，在这里，被{4}选中的人将被授予「{5}」，导引{6}之力。你将扮演一位名为「{7}」的{8}角色，在自由的{9}中{10}，{11}——同时，逐步发掘「{12}」的真相。";
+                var template = "你说得对，但是《{0}》是由{1}自主研发的一款全新{2}游戏。游戏发生在一个被称作「{3}」的幻想世界，在这里，被{4}选中的人将被授予「{5}」，导引{6}之力。你将扮演一位名为「{7}」{8}角色，在自由的{9}中{10}，{11}——同时，逐步发掘「{12}」的真相。";
                 var args = [gName, gCompany, gType, wName, npcName, rSkill, opSkill, pCharName, "的" + pCharType, pAction, pAAction1, pAAction2, gCoreName];
                 var r = formatString(template, args[0], args[1], args[2], args[3], args[4], args[5], args[6], args[7], args[8], args[9], args[10], args[11], args[12]);
                 return r;
@@ -313,5 +313,16 @@
         </span>
         <hr>
         <span id="cprt" class="cprt"></span>
+        <span class="cprt"><!-- 这里使用同一个class只是为了方便css重复使用 -->
+            <!--
+                worker.js中的计数器实现是将本注释前部分的代码写入了一个变量 然后利用如下指令获取的:(假设变量名为"target", 命名空间映射到了"nsdd")
+                viewCount = await nsdd.get("viewCount");
+                viewCount++;
+                await nsdd.put("viewCount", viewCount);
+                target += `已有 ${viewCount} 人正在「你说得对」</span></footer></body></html>`;
+                之后正常new Response即可
+            -->
+            已有 ${viewCount} 人正在「你说得对」
+        </span>
     </body>
 </html>

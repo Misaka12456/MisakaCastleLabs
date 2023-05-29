@@ -1,0 +1,4 @@
+User-agent: *
+# 防止走GitHub Pages部署的网站的存储库信息被搜索引擎意外收录
+Disallow: README.md
+Disallow: LICENSE
